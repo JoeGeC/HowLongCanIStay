@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.joebarker.howlongcanistay.ui.theme.Purple200
 
 @Composable
-fun AreaItem(name: String, daysRemaining: Int) {
+fun AreaItem(name: String?, daysAllowed: Int?, period: Int?) {
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)
@@ -23,11 +23,11 @@ fun AreaItem(name: String, daysRemaining: Int) {
         .clip(RoundedCornerShape(8.dp))
         .padding(8.dp)
     ){
-        Text(name, fontSize = 21.sp)
-        Text("Days remaining: $daysRemaining/180", fontSize = 16.sp)
+        Text(name ?: "", fontSize = 21.sp)
+        Text("Days remaining: ${daysAllowed ?: 0}/${period ?: 0}", fontSize = 16.sp)
     }
 }
 
 @Preview()
 @Composable
-fun AreaItem() { AreaItem(name = "Schengen Area", daysRemaining = 90) }
+fun AreaItem() { AreaItem(name = "Schengen Area", daysAllowed = 90, period = 180) }

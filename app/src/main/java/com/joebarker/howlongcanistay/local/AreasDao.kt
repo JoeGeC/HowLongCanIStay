@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.joebarker.howlongcanistay.AreaItemModel
 
 @Dao
 interface AreasDao {
@@ -15,4 +16,7 @@ interface AreasDao {
 
     @Delete
     fun delete(area: LocalArea)
+
+    @Query("SELECT * FROM localarea")
+    fun getAll(): List<LocalArea>
 }

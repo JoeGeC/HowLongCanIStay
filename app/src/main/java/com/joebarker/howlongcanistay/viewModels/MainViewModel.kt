@@ -2,14 +2,14 @@ package com.joebarker.howlongcanistay.viewModels
 
 import androidx.lifecycle.ViewModel
 import com.joebarker.howlongcanistay.AreaItemModel
-import com.joebarker.howlongcanistay.repository.AddAreaRepository
+import com.joebarker.howlongcanistay.repository.AreaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.lang.Exception
 import java.lang.NumberFormatException
 
 class MainViewModel(
-    private val repository: AddAreaRepository? = null
+    private val repository: AreaRepository? = null
 ): ViewModel() {
     private val _areas = MutableStateFlow(listOf<AreaItemModel>())
     val areas: StateFlow<List<AreaItemModel>> = _areas

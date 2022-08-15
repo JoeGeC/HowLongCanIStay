@@ -1,6 +1,6 @@
 package com.joebarker.howlongcanistay
 
-import com.joebarker.howlongcanistay.repository.AddAreaRepository
+import com.joebarker.howlongcanistay.repository.AreaRepository
 import com.joebarker.howlongcanistay.viewModels.MainViewModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -12,7 +12,7 @@ import org.mockito.kotlin.verify
 
 class MainViewModelShould {
     private val areas = listOf(AreaItemModel("asd", 4, 5))
-    private val repositoryMock = mock<AddAreaRepository> {
+    private val repositoryMock = mock<AreaRepository> {
         on { getAreas() } doReturn areas
     }
     private val viewModel = MainViewModel(repositoryMock)

@@ -3,18 +3,24 @@ package com.joebarker.howlongcanistay.local
 import android.content.Context
 import androidx.room.Room
 import com.joebarker.howlongcanistay.AreaItemModel
-import com.joebarker.howlongcanistay.repository.AddAreaRepository
+import com.joebarker.howlongcanistay.repository.AreaRepository
 
-class AddAreaLocal(
+class AreaLocal(
     context: Context,
     private val database: AreaDatabase = Room.databaseBuilder(context, AreaDatabase::class.java, "area_database").build()
-) : AddAreaRepository {
+) : AreaRepository {
 
     override fun addArea(areaName: String, daysAllowed: Int, period: Int) {
         database.areasDao().insertAll(LocalArea(areaName, daysAllowed, period))
     }
 
     override fun getAreas(): List<AreaItemModel> {
-        TODO("Not yet implemented")
+        return convert(database.areasDao().getAll())
+    }
+
+    private fun convert(localAreas: List<LocalArea>): List<AreaItemModel> {
+        return localAreas.map { local ->
+            AreaItemModel(local.name, local.days_allowed, local.period)
+        }
     }
 }
