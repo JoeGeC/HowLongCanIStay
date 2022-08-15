@@ -9,7 +9,7 @@ import java.lang.Exception
 import java.lang.NumberFormatException
 
 class MainViewModel(
-    private val repository: AreaRepository? = null
+    private val repository: AreaRepository
 ): ViewModel() {
     private val _areas = MutableStateFlow(listOf<AreaItemModel>())
     val areas: StateFlow<List<AreaItemModel>> = _areas
@@ -20,9 +20,8 @@ class MainViewModel(
         _error.value = getError(areaName, daysAllowedAsString, periodAsString)
         if(error.value.isNotEmpty()) return
         try{
-            repository?.addArea(areaName, daysAllowedAsString.toInt(), periodAsString.toInt())
-            if(repository != null)
-                _areas.value = repository.getAreas()
+            repository.addArea(areaName, daysAllowedAsString.toInt(), periodAsString.toInt())
+            _areas.value = repository.getAreas()
         } catch(e: Exception){
             _error.value = SomethingWentWrong
         }
