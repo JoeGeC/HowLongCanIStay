@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.joebarker.howlongcanistay.local.AddAreaLocal
-import com.joebarker.howlongcanistay.local.Area
+import com.joebarker.howlongcanistay.local.LocalArea
 import com.joebarker.howlongcanistay.local.AreaDatabase
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -21,7 +21,7 @@ class AddAreaLocalShould {
         val areaName = "sdf"
         val daysAllowed = 5
         val period = 6
-        val area = Area(areaName, daysAllowed, period)
+        val area = LocalArea(areaName, daysAllowed, period)
         local.addArea(areaName, daysAllowed, period)
         assertEquals(area, dao.findByName(areaName))
     }

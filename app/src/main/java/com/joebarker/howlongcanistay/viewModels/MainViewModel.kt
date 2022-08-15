@@ -1,6 +1,7 @@
 package com.joebarker.howlongcanistay.viewModels
 
 import androidx.lifecycle.ViewModel
+import com.joebarker.howlongcanistay.AreaItemModel
 import com.joebarker.howlongcanistay.repository.AddAreaRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -8,8 +9,10 @@ import java.lang.Exception
 import java.lang.NumberFormatException
 
 class MainViewModel(
-    private val repositoryMock: AddAreaRepository? = null
+    private val repository: AddAreaRepository? = null
 ): ViewModel() {
+    private val _areas = MutableStateFlow(listOf<AreaItemModel>())
+    val areas: StateFlow<List<AreaItemModel>> = _areas
     private val _error = MutableStateFlow("")
     val error: StateFlow<String> = _error
 
@@ -17,7 +20,9 @@ class MainViewModel(
         _error.value = getError(areaName, daysAllowedAsString, periodAsString)
         if(error.value.isNotEmpty()) return
         try{
-            repositoryMock?.addArea(areaName, daysAllowedAsString.toInt(), periodAsString.toInt())
+            repository?.addArea(areaName, daysAllowedAsString.toInt(), periodAsString.toInt())
+            if(repository != null)
+                _areas.value = repository.getAreas()
         } catch(e: Exception){
             _error.value = SomethingWentWrong
         }

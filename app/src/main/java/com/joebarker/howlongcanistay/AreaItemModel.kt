@@ -1,7 +1,7 @@
 package com.joebarker.howlongcanistay
 
-class AreaItemModel(
+data class AreaItemModel(
     val name: String,
-    val daysRemaining: Int) {
-
-}
+    val daysAllowed: Int,
+    val period: Int
+)

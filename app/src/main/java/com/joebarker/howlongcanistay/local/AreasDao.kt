@@ -7,12 +7,12 @@ import androidx.room.Query
 
 @Dao
 interface AreasDao {
-    @Query("SELECT * FROM area WHERE name LIKE :name LIMIT 1")
-    fun findByName(name: String): Area
+    @Query("SELECT * FROM localarea WHERE name LIKE :name LIMIT 1")
+    fun findByName(name: String): LocalArea
 
     @Insert
-    fun insertAll(vararg area: Area)
+    fun insertAll(vararg area: LocalArea)
 
     @Delete
-    fun delete(area: Area)
+    fun delete(area: LocalArea)
 }

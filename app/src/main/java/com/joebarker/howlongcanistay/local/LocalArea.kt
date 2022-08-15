@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Area(
+data class LocalArea(
     @PrimaryKey val name: String,
     @ColumnInfo(name = "days_allowed") val days_allowed: Int?,
     @ColumnInfo(name = "period") val period: Int?
