@@ -18,10 +18,11 @@ import com.joebarker.howlongcanistay.ui.theme.HowLongCanIStayTheme
 import com.joebarker.howlongcanistay.viewModels.MainViewModel
 
 class MainActivity : ComponentActivity() {
-    private val viewModel = MainViewModel(AreaLocal(this))
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = MainViewModel(AreaLocal(this))
         setContent {
             HowLongCanIStayTheme {
                 Surface(
