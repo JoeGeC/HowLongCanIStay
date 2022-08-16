@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import com.joebarker.howlongcanistay.ui.theme.Purple200
 import com.joebarker.howlongcanistay.viewModels.MainViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

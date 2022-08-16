@@ -19,7 +19,7 @@ class MainViewModel(
     private val _error = MutableStateFlow("")
     val error: StateFlow<String> = _error
 
-    fun addNewArea(areaName: String, daysAllowedAsString: String, periodAsString: String, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+    fun addNewArea(areaName: String, daysAllowedAsString: String, periodAsString: String) {
         _error.value = getError(areaName, daysAllowedAsString, periodAsString)
         if(error.value.isNotEmpty()) return
         try{
