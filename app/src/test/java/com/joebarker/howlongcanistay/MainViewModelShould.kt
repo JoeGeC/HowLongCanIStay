@@ -1,5 +1,6 @@
 package com.joebarker.howlongcanistay
 
+import android.database.sqlite.SQLiteConstraintException
 import com.joebarker.howlongcanistay.repository.AreaRepository
 import com.joebarker.howlongcanistay.viewModels.MainViewModel
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -61,6 +62,15 @@ class MainViewModelShould {
         viewModel.addNewArea(areaName, "4", "5")
         verify(repositoryMock, times(1)).addArea(areaName, 4, 5)
         assertEquals(viewModel.error.value, MainViewModel.SomethingWentWrong)
+    }
+
+    @Test
+    fun showErrorOnSameNameError() {
+        val areaName = "kjdf"
+        Mockito.doThrow(SQLiteConstraintException::class.java).`when`(repositoryMock).addArea(areaName, 4, 5)
+        viewModel.addNewArea(areaName, "4", "5")
+        verify(repositoryMock, times(1)).addArea(areaName, 4, 5)
+        assertEquals(viewModel.error.value, MainViewModel.SameNameError)
     }
 
     @Test

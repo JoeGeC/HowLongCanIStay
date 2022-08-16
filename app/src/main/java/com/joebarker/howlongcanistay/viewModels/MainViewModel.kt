@@ -1,8 +1,11 @@
 package com.joebarker.howlongcanistay.viewModels
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.ViewModel
 import com.joebarker.howlongcanistay.AreaItemModel
 import com.joebarker.howlongcanistay.repository.AreaRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.lang.Exception
@@ -16,15 +19,22 @@ class MainViewModel(
     private val _error = MutableStateFlow("")
     val error: StateFlow<String> = _error
 
-    fun addNewArea(areaName: String, daysAllowedAsString: String, periodAsString: String) {
+    fun addNewArea(areaName: String, daysAllowedAsString: String, periodAsString: String, dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         _error.value = getError(areaName, daysAllowedAsString, periodAsString)
         if(error.value.isNotEmpty()) return
         try{
             repository.addArea(areaName, daysAllowedAsString.toInt(), periodAsString.toInt())
             _areas.value = repository.getAreas()
         } catch(e: Exception){
-            _error.value = SomethingWentWrong
+            handleException(e)
         }
+    }
+
+    private fun handleException(e: Exception) {
+        if (e is SQLiteConstraintException)
+            _error.value = SameNameError
+        else
+            _error.value = SomethingWentWrong
     }
 
     private fun getError(areaName: String, daysAllowedAsString: String, periodAsString: String) : String {
@@ -41,6 +51,7 @@ class MainViewModel(
         const val PeriodCannotBeLower = "Period cannot be lower than days allowed"
         const val DaysMustBeNumerical = "Days must be numerical"
         const val PeriodMustBeNumerical = "Period must be numerical"
+        const val SameNameError = "Something went wrong. Do you have an area with the same name already?"
         const val NoError = ""
     }
 }
