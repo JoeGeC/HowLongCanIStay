@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.joebarker.howlongcanistay.local.AreaLocal
 import com.joebarker.howlongcanistay.ui.AddAreaItem
@@ -24,13 +26,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         viewModel = MainViewModel(AreaLocal(this))
         setContent {
+            val areas by viewModel.areas.collectAsState()
             HowLongCanIStayTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LazyColumn(Modifier.fillMaxHeight().fillMaxWidth()){
-                        items(listOf(AreaItemModel("Schengen Area", 90, 180))) { area ->
+                    LazyColumn(
+                        Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth()){
+                        items(areas) { area ->
                             AreaItem(area.name, area.daysAllowed, area.period)
                         }
                         item { AddAreaItem(viewModel) }
