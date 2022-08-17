@@ -2,17 +2,20 @@ package com.joebarker.howlongcanistay.viewModels
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.joebarker.howlongcanistay.AreaItemModel
 import com.joebarker.howlongcanistay.repository.AreaRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.lang.NumberFormatException
 
 class MainViewModel(
-    private val repository: AreaRepository
+    private val repository: AreaRepository,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
     private val _areas = MutableStateFlow(listOf<AreaItemModel>())
     val areas: StateFlow<List<AreaItemModel>> = _areas
@@ -20,17 +23,21 @@ class MainViewModel(
     val error: StateFlow<String> = _error
 
     fun fetchAreas() {
-        _areas.value = repository.getAreas()
+        viewModelScope.launch(coroutineDispatcher) {
+            _areas.value = repository.getAreas()
+        }
     }
 
     fun addNewArea(areaName: String, daysAllowedAsString: String, periodAsString: String) {
-        _error.value = getError(areaName, daysAllowedAsString, periodAsString)
-        if(error.value.isNotEmpty()) return
-        try{
-            repository.addArea(areaName, daysAllowedAsString.toInt(), periodAsString.toInt())
-            _areas.value = repository.getAreas()
-        } catch(e: Exception){
-            handleException(e)
+        viewModelScope.launch(coroutineDispatcher) {
+            _error.value = getError(areaName, daysAllowedAsString, periodAsString)
+            if (error.value.isNotEmpty()) return@launch
+            try {
+                repository.addArea(areaName, daysAllowedAsString.toInt(), periodAsString.toInt())
+                _areas.value = repository.getAreas()
+            } catch (e: Exception) {
+                handleException(e)
+            }
         }
     }
 

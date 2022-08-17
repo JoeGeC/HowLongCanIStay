@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = MainViewModel(AreaLocal(this))
+        viewModel.fetchAreas()
         setContent {
             val areas by viewModel.areas.collectAsState()
             HowLongCanIStayTheme {

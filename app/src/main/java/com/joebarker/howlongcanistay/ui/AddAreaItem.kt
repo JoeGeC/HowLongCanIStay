@@ -73,19 +73,11 @@ fun AddAreaItem(viewModel: MainViewModel) {
         }
         if (error.isNotBlank())
             Text(error, modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 8.dp), fontSize = 16.sp, color = Color.Red)
-        val coroutineScope = rememberCoroutineScope()
         Text(
             "Save",
             Modifier
                 .fillMaxWidth()
-                .clickable(onClick = {
-                    coroutineScope.launch {
-                        withContext(Dispatchers.IO) {
-                            viewModel.addNewArea(areaName, daysAllowed, period)
-                        }
-                    }
-                }
-                ),
+                .clickable(onClick = { viewModel.addNewArea(areaName, daysAllowed, period) } ),
             textAlign = TextAlign.End,
             fontSize = 16.sp
         )

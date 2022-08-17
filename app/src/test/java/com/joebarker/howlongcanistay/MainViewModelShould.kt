@@ -3,6 +3,7 @@ package com.joebarker.howlongcanistay
 import android.database.sqlite.SQLiteConstraintException
 import com.joebarker.howlongcanistay.repository.AreaRepository
 import com.joebarker.howlongcanistay.viewModels.MainViewModel
+import kotlinx.coroutines.Dispatchers
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -16,7 +17,7 @@ class MainViewModelShould {
     private val repositoryMock = mock<AreaRepository> {
         on { getAreas() } doReturn areas
     }
-    private val viewModel = MainViewModel(repositoryMock)
+    private val viewModel = MainViewModel(repositoryMock, Dispatchers.Unconfined)
 
     @Test
     fun showErrorIfDaysAllowedAreMoreThanPeriod() {
