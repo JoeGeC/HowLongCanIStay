@@ -19,6 +19,10 @@ class MainViewModel(
     private val _error = MutableStateFlow("")
     val error: StateFlow<String> = _error
 
+    fun fetchAreas() {
+        _areas.value = repository.getAreas()
+    }
+
     fun addNewArea(areaName: String, daysAllowedAsString: String, periodAsString: String) {
         _error.value = getError(areaName, daysAllowedAsString, periodAsString)
         if(error.value.isNotEmpty()) return

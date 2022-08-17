@@ -21,31 +21,31 @@ class MainViewModelShould {
     @Test
     fun showErrorIfDaysAllowedAreMoreThanPeriod() {
         viewModel.addNewArea("ds", "5", "4")
-        assertEquals(viewModel.error.value, MainViewModel.PeriodCannotBeLower)
+        assertEquals(MainViewModel.PeriodCannotBeLower, viewModel.error.value)
     }
 
     @Test
     fun showErrorIfDaysAllowedIsNotAnInt() {
         viewModel.addNewArea("ds", "e", "4")
-        assertEquals(viewModel.error.value, MainViewModel.DaysMustBeNumerical)
+        assertEquals(MainViewModel.DaysMustBeNumerical, viewModel.error.value)
     }
 
     @Test
     fun showErrorIfPeriodIsNotAnInt() {
         viewModel.addNewArea("ds", "4", "s")
-        assertEquals(viewModel.error.value, MainViewModel.PeriodMustBeNumerical)
+        assertEquals(MainViewModel.PeriodMustBeNumerical, viewModel.error.value)
     }
 
     @Test
     fun showErrorIfAreaNameIsEmpty() {
         viewModel.addNewArea("", "4", "5")
-        assertEquals(viewModel.error.value, MainViewModel.AreaNameMustNotBeEmpty)
+        assertEquals(MainViewModel.AreaNameMustNotBeEmpty, viewModel.error.value)
     }
 
     @Test
     fun showErrorIfAreaNameIsSpace() {
         viewModel.addNewArea(" ", "4", "5")
-        assertEquals(viewModel.error.value, MainViewModel.AreaNameMustNotBeEmpty)
+        assertEquals(MainViewModel.AreaNameMustNotBeEmpty, viewModel.error.value)
     }
 
     @Test
@@ -61,7 +61,7 @@ class MainViewModelShould {
         Mockito.doThrow(NullPointerException::class.java).`when`(repositoryMock).addArea(areaName, 4, 5)
         viewModel.addNewArea(areaName, "4", "5")
         verify(repositoryMock, times(1)).addArea(areaName, 4, 5)
-        assertEquals(viewModel.error.value, MainViewModel.SomethingWentWrong)
+        assertEquals(MainViewModel.SomethingWentWrong, viewModel.error.value)
     }
 
     @Test
@@ -70,13 +70,19 @@ class MainViewModelShould {
         Mockito.doThrow(SQLiteConstraintException::class.java).`when`(repositoryMock).addArea(areaName, 4, 5)
         viewModel.addNewArea(areaName, "4", "5")
         verify(repositoryMock, times(1)).addArea(areaName, 4, 5)
-        assertEquals(viewModel.error.value, MainViewModel.SameNameError)
+        assertEquals(MainViewModel.SameNameError, viewModel.error.value)
     }
 
     @Test
     fun loadAreasOnceAdded() {
         viewModel.addNewArea("sd", "4", "5")
-        assertEquals(viewModel.areas.value, areas)
+        assertEquals(areas, viewModel.areas.value)
+    }
+
+    @Test
+    fun fetchAreas(){
+        viewModel.fetchAreas()
+        assertEquals(areas, viewModel.areas.value)
     }
 
 }
